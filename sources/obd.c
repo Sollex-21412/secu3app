@@ -135,7 +135,7 @@ void obd_process(void)
     obd.msg.data[2] = 0x00;
     obd.msg.data[3] = BATT;
     obd.msg.data[4] = FAILS;
-    obd.msg.data[5] = 0x00; // ÑOUNTER
+    obd.msg.data[5] = 0x00; // Ð¡OUNTER
     obd.msg.data[6] = 0x00;
     obd.msg.data[7] = 0x00;
     knock_push_can_message(&obd.msg);

@@ -67,7 +67,7 @@ void process_uart_interface(void)
  }
 #endif
 
- if (uart_is_packet_received())//приняли новый фрейм ?
+ if (uart_is_packet_received())//РїСЂРёРЅСЏР»Рё РЅРѕРІС‹Р№ С„СЂРµР№Рј ?
  {
   descriptor = uart_recept_packet();
   switch(descriptor)
@@ -83,7 +83,7 @@ void process_uart_interface(void)
 #ifdef GD_CONTROL
    case GASDOSE_PAR:
 #endif
-    //если были изменены параметры то сбрасываем счетчик времени
+    //РµСЃР»Рё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹ РїР°СЂР°РјРµС‚СЂС‹ С‚Рѕ СЃР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
     s_timer16_set(save_param_timeout_counter, SAVE_PARAM_TIMEOUT_VALUE);
     break;
 
@@ -100,7 +100,7 @@ void process_uart_interface(void)
     CHECKBIT(d.param.hall_flags, CKPF_USE_CAM_REF));
 #endif
    case ACCEL_PAR:
-    //если были изменены параметры то сбрасываем счетчик времени
+    //РµСЃР»Рё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹ РїР°СЂР°РјРµС‚СЂС‹ С‚Рѕ СЃР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
     s_timer16_set(save_param_timeout_counter, SAVE_PARAM_TIMEOUT_VALUE);
     break;
 #endif
@@ -119,36 +119,36 @@ void process_uart_interface(void)
     break;
 
    case FUNSET_PAR:
-    //если были изменены параметры то сбрасываем счетчик времени
+    //РµСЃР»Рё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹ РїР°СЂР°РјРµС‚СЂС‹ С‚Рѕ СЃР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
     s_timer16_set(save_param_timeout_counter, SAVE_PARAM_TIMEOUT_VALUE);
     break;
 
    case OP_COMP_NC:
-    if (_AB(d.op_actn_code, 0) == OPCODE_EEPROM_PARAM_SAVE) //приняли команду сохранения параметров
+    if (_AB(d.op_actn_code, 0) == OPCODE_EEPROM_PARAM_SAVE) //РїСЂРёРЅСЏР»Рё РєРѕРјР°РЅРґСѓ СЃРѕС…СЂР°РЅРµРЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
     {
      sop_set_operation(SOP_SAVE_PARAMETERS);
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
-    if (_AB(d.op_actn_code, 0) == OPCODE_CE_SAVE_ERRORS) //приняли команду чтения сохраненных кодов ошибок
+    if (_AB(d.op_actn_code, 0) == OPCODE_CE_SAVE_ERRORS) //РїСЂРёРЅСЏР»Рё РєРѕРјР°РЅРґСѓ С‡С‚РµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅРЅС‹С… РєРѕРґРѕРІ РѕС€РёР±РѕРє
     {
      sop_set_operation(SOP_READ_CE_ERRORS);
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
-    if (_AB(d.op_actn_code, 0) == OPCODE_READ_FW_SIG_INFO) //приняли команду чтения и передачи информации о прошивке
+    if (_AB(d.op_actn_code, 0) == OPCODE_READ_FW_SIG_INFO) //РїСЂРёРЅСЏР»Рё РєРѕРјР°РЅРґСѓ С‡С‚РµРЅРёСЏ Рё РїРµСЂРµРґР°С‡Рё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РїСЂРѕС€РёРІРєРµ
     {
      sop_set_operation(SOP_SEND_FW_SIG_INFO);
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
 #ifdef REALTIME_TABLES
-    if (_AB(d.op_actn_code, 0) == OPCODE_LOAD_TABLSET) //приняли команду выбора нового набора таблиц
+    if (_AB(d.op_actn_code, 0) == OPCODE_LOAD_TABLSET) //РїСЂРёРЅСЏР»Рё РєРѕРјР°РЅРґСѓ РІС‹Р±РѕСЂР° РЅРѕРІРѕРіРѕ РЅР°Р±РѕСЂР° С‚Р°Р±Р»РёС†
     {
      sop_set_operation(SOP_LOAD_TABLSET);
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
-    if (_AB(d.op_actn_code, 0) == OPCODE_SAVE_TABLSET) //приняли команду сохранения набора таблиц для указанного типа топлива
+    if (_AB(d.op_actn_code, 0) == OPCODE_SAVE_TABLSET) //РїСЂРёРЅСЏР»Рё РєРѕРјР°РЅРґСѓ СЃРѕС…СЂР°РЅРµРЅРёСЏ РЅР°Р±РѕСЂР° С‚Р°Р±Р»РёС† РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕРіРѕ С‚РёРїР° С‚РѕРїР»РёРІР°
     {
      sop_set_operation(SOP_SAVE_TABLSET);
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
 #endif
 #ifdef DIAGNOSTICS
@@ -156,13 +156,13 @@ void process_uart_interface(void)
     {
      //this function will send confirmation answer and start diagnostic mode (it will has its own separate loop)
      diagnost_start();
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
     if (_AB(d.op_actn_code, 0) == OPCODE_DIAGNOST_LEAVE) //"leave diagnostic mode" command has been received
     {
      //this function will send confirmation answer and reset device
      diagnost_stop();
-     _AB(d.op_actn_code, 0) = 0; //обработали
+     _AB(d.op_actn_code, 0) = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
     }
 #endif
     if (_AB(d.op_actn_code, 0) == OPCODE_RESET_EEPROM) //reset EEPROM command received
@@ -178,8 +178,8 @@ void process_uart_interface(void)
     break;
 
    case CKPS_PAR:
-    //если были изменены параметры ДПКВ, то немедленно применяем их на работающем двигателе и сбрасываем счетчик времени
-    ckps_set_cyl_number(d.param.ckps_engine_cyl);  //<--обязательно в первую очередь!
+    //РµСЃР»Рё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹ РїР°СЂР°РјРµС‚СЂС‹ Р”РџРљР’, С‚Рѕ РЅРµРјРµРґР»РµРЅРЅРѕ РїСЂРёРјРµРЅСЏРµРј РёС… РЅР° СЂР°Р±РѕС‚Р°СЋС‰РµРј РґРІРёРіР°С‚РµР»Рµ Рё СЃР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
+    ckps_set_cyl_number(d.param.ckps_engine_cyl);  //<--РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РІ РїРµСЂРІСѓСЋ РѕС‡РµСЂРµРґСЊ!
     ckps_set_cogs_num(d.param.ckps_cogs_num, d.param.ckps_miss_num);
     ckps_set_edge_type(CHECKBIT(d.param.hall_flags, CKPF_CKPS_EDGE));     //CKPS (CKP sensor)
     cams_vr_set_edge_type(CHECKBIT(d.param.hall_flags, CKPF_REFS_EDGE));  //REF_S (Reference sensor)
@@ -222,14 +222,14 @@ void process_uart_interface(void)
     break;
 
    case KNOCK_PAR:
-    //аналогично для контороля детонации, обязательно после CKPS_PAR!
-    //инициализируем процессор детонации в случае если он не использовался, а теперь поступила команда его использовать.
+    //Р°РЅР°Р»РѕРіРёС‡РЅРѕ РґР»СЏ РєРѕРЅС‚РѕСЂРѕР»СЏ РґРµС‚РѕРЅР°С†РёРё, РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РїРѕСЃР»Рµ CKPS_PAR!
+    //РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїСЂРѕС†РµСЃСЃРѕСЂ РґРµС‚РѕРЅР°С†РёРё РІ СЃР»СѓС‡Р°Рµ РµСЃР»Рё РѕРЅ РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°Р»СЃСЏ, Р° С‚РµРїРµСЂСЊ РїРѕСЃС‚СѓРїРёР»Р° РєРѕРјР°РЅРґР° РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ.
     if (d.param.knock_use_knock_channel)
     {
      if (!d.use_knock_channel_prev)
      {
       if (!knock_module_initialize())
-      {//чип сигнального процессора детонации неисправен - зажигаем СЕ
+      {//С‡РёРї СЃРёРіРЅР°Р»СЊРЅРѕРіРѕ РїСЂРѕС†РµСЃСЃРѕСЂР° РґРµС‚РѕРЅР°С†РёРё РЅРµРёСЃРїСЂР°РІРµРЅ - Р·Р°Р¶РёРіР°РµРј РЎР•
        ce_set_error(ECUERROR_KSP_CHIP_FAILED);
       }
      }
@@ -238,16 +238,16 @@ void process_uart_interface(void)
      ce_clear_error(ECUERROR_KNOCK_DETECTED);
 
     knock_set_band_pass(d.param.knock_bpf_frequency);
-    //gain устанавливается в каждом рабочем цикле
+    //gain СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РІ РєР°Р¶РґРѕРј СЂР°Р±РѕС‡РµРј С†РёРєР»Рµ
     knock_set_int_time_constant(d.param.knock_int_time_const);
     ckps_set_knock_window(d.param.knock_k_wnd_begin_angle, d.param.knock_k_wnd_end_angle);
     ckps_use_knock_channel(d.param.knock_use_knock_channel);
 
-    //запоминаем состояние флага для того чтобы потом можно было определить нужно инициализировать
-    //процессор детонации или нет.
+    //Р·Р°РїРѕРјРёРЅР°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ С„Р»Р°РіР° РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ РїРѕС‚РѕРј РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РѕРїСЂРµРґРµР»РёС‚СЊ РЅСѓР¶РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ
+    //РїСЂРѕС†РµСЃСЃРѕСЂ РґРµС‚РѕРЅР°С†РёРё РёР»Рё РЅРµС‚.
     d.use_knock_channel_prev = d.param.knock_use_knock_channel;
 
-    //если были изменены параметры то сбрасываем счетчик времени
+    //РµСЃР»Рё Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹ РїР°СЂР°РјРµС‚СЂС‹ С‚Рѕ СЃР±СЂР°СЃС‹РІР°РµРј СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
     s_timer16_set(save_param_timeout_counter, SAVE_PARAM_TIMEOUT_VALUE);
     break;
 
@@ -260,7 +260,7 @@ void process_uart_interface(void)
     break;
   }
 
-  //мы обработали принятые данные - приемник ничем теперь не озабочен
+  //РјС‹ РѕР±СЂР°Р±РѕС‚Р°Р»Рё РїСЂРёРЅСЏС‚С‹Рµ РґР°РЅРЅС‹Рµ - РїСЂРёРµРјРЅРёРє РЅРёС‡РµРј С‚РµРїРµСЂСЊ РЅРµ РѕР·Р°Р±РѕС‡РµРЅ
   uart_notify_processed();
  }
 
@@ -288,7 +288,7 @@ void process_uart_interface(void)
     ce_clear_error(ECUERROR_SYS_START);
    //----------------------------------
 
-   uart_send_packet(0);                  //теперь передатчик озабочен передачей данных
+   uart_send_packet(0);                  //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
 
 #ifdef DEBUG_VARIABLES
    if (SENSOR_DAT==desc || ADCRAW_DAT==desc || CE_ERR_CODES==desc || DIAGINP_DAT==desc)
@@ -297,7 +297,7 @@ void process_uart_interface(void)
 
    s_timer_set(send_packet_interval_counter, d.param.uart_period_t_ms);
 
-   //после передачи очищаем кеш ошибок, передача битов ошибок осуществляется только в 1 из 2 пакетов
+   //РїРѕСЃР»Рµ РїРµСЂРµРґР°С‡Рё РѕС‡РёС‰Р°РµРј РєРµС€ РѕС€РёР±РѕРє, РїРµСЂРµРґР°С‡Р° Р±РёС‚РѕРІ РѕС€РёР±РѕРє РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ 1 РёР· 2 РїР°РєРµС‚РѕРІ
    if (SENSOR_DAT==desc || CE_ERR_CODES==desc)
     d.ecuerrors_for_transfer = 0;
   }

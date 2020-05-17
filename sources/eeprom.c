@@ -23,7 +23,7 @@
  * \author Alexey A. Shabelnikov
  * Implementation of EEPROM related functions (API).
  * Functions for read/write EEPROM and related functionality
- * (Реализация Функций для для чтения/записи EEPROM и связанная с ним функциональность)
+ * (Р РµР°Р»РёР·Р°С†РёСЏ Р¤СѓРЅРєС†РёР№ РґР»СЏ РґР»СЏ С‡С‚РµРЅРёСЏ/Р·Р°РїРёСЃРё EEPROM Рё СЃРІСЏР·Р°РЅРЅР°СЏ СЃ РЅРёРј С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ)
  */
 
 #include "port/avrio.h"
@@ -35,14 +35,14 @@
 #include "wdt.h"
 
 /**Describes information is necessary for storing of data into EEPROM
- * (Описывает информацию необходимую для сохранения данных в EEPROM)
+ * (РћРїРёСЃС‹РІР°РµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РЅРµРѕР±С…РѕРґРёРјСѓСЋ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С… РІ EEPROM)
  */
 typedef struct
 {
- uint16_t ee_addr;             //!< Address for EEPROM (адрес для записи в EEPROM)
- uint8_t* sram_addr;           //!< Address of data in RAM (адрес данных в ОЗУ)
- uint16_t count;               //!< Number of bytes (количество байтов)
- uint8_t eews;                 //!< State of writing process (состояние процесса записи)
+ uint16_t ee_addr;             //!< Address for EEPROM (Р°РґСЂРµСЃ РґР»СЏ Р·Р°РїРёСЃРё РІ EEPROM)
+ uint8_t* sram_addr;           //!< Address of data in RAM (Р°РґСЂРµСЃ РґР°РЅРЅС‹С… РІ РћР—РЈ)
+ uint16_t count;               //!< Number of bytes (РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚РѕРІ)
+ uint8_t eews;                 //!< State of writing process (СЃРѕСЃС‚РѕСЏРЅРёРµ РїСЂРѕС†РµСЃСЃР° Р·Р°РїРёСЃРё)
  uint8_t opcode;               //!< code of specific operation wich cased writing process
  uint8_t completed_opcode;     //!< will be equal to opcode after finish of process
 }eeprom_wr_desc_t;
@@ -50,7 +50,7 @@ typedef struct
 /**State variables */
 eeprom_wr_desc_t eewd = {0,0,0,0,0,0};
 
-/** Initiates process of byte's writing (инициирует процесс записи байта в EEPROM) */
+/** Initiates process of byte's writing (РёРЅРёС†РёРёСЂСѓРµС‚ РїСЂРѕС†РµСЃСЃ Р·Р°РїРёСЃРё Р±Р°Р№С‚Р° РІ EEPROM) */
 #define EE_START_WR_BYTE()  {EECR|= _BV(EEMPE);  EECR|= _BV(EEPE);}
 
 uint8_t eeprom_take_completed_opcode(void)
@@ -63,7 +63,7 @@ uint8_t eeprom_take_completed_opcode(void)
  return result;
 }
 
-//запускает процесс записи в EEPROM указанного блока данных
+//Р·Р°РїСѓСЃРєР°РµС‚ РїСЂРѕС†РµСЃСЃ Р·Р°РїРёСЃРё РІ EEPROM СѓРєР°Р·Р°РЅРЅРѕРіРѕ Р±Р»РѕРєР° РґР°РЅРЅС‹С…
 void eeprom_start_wr_data(uint8_t opcode, uint16_t eeaddr, void* sramaddr, uint16_t size)
 {
  eewd.eews = 1;
@@ -74,7 +74,7 @@ void eeprom_start_wr_data(uint8_t opcode, uint16_t eeaddr, void* sramaddr, uint1
  SETBIT(EECR, EERIE);
 }
 
-//возвращает не 0 если в текущий момент никакая операция не выполняется
+//РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµ 0 РµСЃР»Рё РІ С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚ РЅРёРєР°РєР°СЏ РѕРїРµСЂР°С†РёСЏ РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ
 uint8_t eeprom_is_idle(void)
 {
  return (eewd.eews) ? 0 : 1;
@@ -82,19 +82,19 @@ uint8_t eeprom_is_idle(void)
 
 /**Interrupt handler from EEPROM. Each time when state machine finishes we set address
  * register to zero.
- * (Обработчик прерывания от EEPROM при завершении работы автомата всегда заносим в
- * регистр адреса - адрес нулевой ячейки).
+ * (РћР±СЂР°Р±РѕС‚С‡РёРє РїСЂРµСЂС‹РІР°РЅРёСЏ РѕС‚ EEPROM РїСЂРё Р·Р°РІРµСЂС€РµРЅРёРё СЂР°Р±РѕС‚С‹ Р°РІС‚РѕРјР°С‚Р° РІСЃРµРіРґР° Р·Р°РЅРѕСЃРёРј РІ
+ * СЂРµРіРёСЃС‚СЂ Р°РґСЂРµСЃР° - Р°РґСЂРµСЃ РЅСѓР»РµРІРѕР№ СЏС‡РµР№РєРё).
  */
 ISR(EE_RDY_vect)
 {
- CLEARBIT(EECR, EERIE); //запрещаем прерывание от EEPROM
+ CLEARBIT(EECR, EERIE); //Р·Р°РїСЂРµС‰Р°РµРј РїСЂРµСЂС‹РІР°РЅРёРµ РѕС‚ EEPROM
  _ENABLE_INTERRUPT();
  switch(eewd.eews)
  {
-  case 0:   //КА остановлен
+  case 0:   //РљРђ РѕСЃС‚Р°РЅРѕРІР»РµРЅ
    break;
 
-  case 1:   //КА в процессе записи
+  case 1:   //РљРђ РІ РїСЂРѕС†РµСЃСЃРµ Р·Р°РїРёСЃРё
    _DISABLE_INTERRUPT();
    EEAR = eewd.ee_addr;
    EEDR = *eewd.sram_addr;
@@ -104,12 +104,12 @@ ISR(EE_RDY_vect)
    ++eewd.sram_addr;
    ++eewd.ee_addr;
    if (--eewd.count==0)
-    eewd.eews = 2;   //последний байт запущен на запись.
+    eewd.eews = 2;   //РїРѕСЃР»РµРґРЅРёР№ Р±Р°Р№С‚ Р·Р°РїСѓС‰РµРЅ РЅР° Р·Р°РїРёСЃСЊ.
    else
     eewd.eews = 1;
    break;
 
-  case 2:   //последний байт записан
+  case 2:   //РїРѕСЃР»РµРґРЅРёР№ Р±Р°Р№С‚ Р·Р°РїРёСЃР°РЅ
    EEAR=0x000;      //this will help to prevent corruption of EEPROM
    eewd.eews = 0;
    eewd.completed_opcode = eewd.opcode;

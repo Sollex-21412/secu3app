@@ -118,7 +118,7 @@ typedef struct
  uint16_t measure_start_value;        //!< remembers the value of the capture register to measure the half-turn
  uint16_t current_angle;              //!< counts out given advance angle during the passage of each tooth
  volatile uint16_t stroke_period;     //!< stores the last measurement of the passage of teeth n
- int16_t  advance_angle;              //!< required adv.angle * ANGLE_MULTIPLIER (òğåáóåìûé ÓÎÇ * ANGLE_MULTIPLIER)
+ int16_t  advance_angle;              //!< required adv.angle * ANGLE_MULTIPLIER (Ñ‚Ñ€ĞµĞ±ÑƒĞµĞ¼Ñ‹Ğ¹ Ğ£ĞĞ— * ANGLE_MULTIPLIER)
  volatile int16_t advance_angle_buffered;//!< buffered value of advance angle (to ensure correct latching)
  uint8_t  ignition_cogs;              //!< number of teeth determining the duration of ignition drive pulse
  uint8_t  starting_mode;              //!< state of state machine processing of teeth at the startup
@@ -158,7 +158,7 @@ typedef struct
  volatile uint16_t degrees_per_cog;   //!< Number of degrees which corresponds to the 1 tooth
  volatile uint16_t degrees_per_cog_r; //!< Reciprocal of the degrees_per_cog, value * 65536
  volatile uint16_t cogs_per_chan;     //!< Number of teeth per 1 ignition channel (it is fractional number * 256)
- volatile int16_t start_angle;        //!< Precalculated value of the advance angle at 66° (at least) BTDC
+ volatile int16_t start_angle;        //!< Precalculated value of the advance angle at 66Â° (at least) BTDC
 #ifdef STROBOSCOPE
  uint8_t strobe;                      //!< Flag indicates that strobe pulse must be output on pending ignition stroke
 #endif
@@ -388,7 +388,7 @@ void ckps_init_ports(void)
 }
 
 //Instantaneous frequency calculation of crankshaft rotation from the measured period between the engine strokes
-//(for example for 4-cylinder, 4-stroke it is 180°)
+//(for example for 4-cylinder, 4-stroke it is 180Â°)
 //Period measured in the discretes of timer (one discrete = 3.2us), one minute = 60 seconds, one second has 1,000,000 us.
 uint16_t ckps_calculate_instant_freq(void)
 {
@@ -656,7 +656,7 @@ void ckps_set_cyl_number(uint8_t i_cyl_number)
 void ckps_set_knock_window(int16_t begin, int16_t end)
 {
  uint8_t _t, i;
- //translate from degrees to teeth (ïåğåâîäèì èç ãğàäóñîâ â çóáüÿ)
+ //translate from degrees to teeth (Ğ¿ĞµÑ€ĞµĞ²Ğ¾Ğ´Ğ¸Ğ¼ Ğ¸Ğ· Ğ³Ñ€Ğ°Ğ´ÑƒÑĞ¾Ğ² Ğ² Ğ·ÑƒĞ±ÑŒÑ)
  ckps.knock_wnd_begin_abs = begin / ((int16_t)ckps.degrees_per_cog);
  ckps.knock_wnd_end_abs = end / ((int16_t)ckps.degrees_per_cog);
 
@@ -736,7 +736,7 @@ void ckps_set_cogs_num(uint8_t norm_num, uint8_t miss_num)
 #endif
 
  //precalculate value and round it always to the upper bound,
- //e.g. for 60-2 crank wheel result = 11 (66°), for 36-1 crank wheel result = 7 (70°)
+ //e.g. for 60-2 crank wheel result = 11 (66Â°), for 36-1 crank wheel result = 7 (70Â°)
  dr = div(ANGLE_MAGNITUDE(66), degrees_per_cog);
 
  _t=_SAVE_INTERRUPT();
@@ -1066,7 +1066,7 @@ static void process_ckps_cogs(void)
   if (CHECKBIT(flags, F_USEKNK))
   {
    //start listening a detonation (opening the window)
-   //íà÷èíàåì ñëóøàòü äåòîíàöèş
+   //Ğ½Ğ°Ñ‡Ğ¸Ğ½Ğ°ĞµĞ¼ ÑĞ»ÑƒÑˆĞ°Ñ‚ÑŒ Ğ´ĞµÑ‚Ğ¾Ğ½Ğ°Ñ†Ğ¸Ñ
    if (ckps.cog == chanstate[i].knock_wnd_begin)
     knock_set_integration_mode(KNOCK_INTMODE_INT);
 
@@ -1082,15 +1082,15 @@ static void process_ckps_cogs(void)
    }
   }
 
-  //for 66° before TDC (before working stroke) establish new advance angle to be actuated,
+  //for 66Â° before TDC (before working stroke) establish new advance angle to be actuated,
   //before this moment value was stored in a temporary buffer.
   if (ckps.cog == chanstate[i].cogs_latch)
   {
    ckps.channel_mode = i;                    //remember number of channel
    SETBIT(flags, F_PNDSPK);                  //establish an indication that it is need to count advance angle
    //start counting of advance angle
-   ckps.current_angle = ckps.start_angle; // those same 66°
-   ckps.advance_angle = ckps.advance_angle_buffered; //advance angle with all the adjustments (say, 15°)
+   ckps.current_angle = ckps.start_angle; // those same 66Â°
+   ckps.advance_angle = ckps.advance_angle_buffered; //advance angle with all the adjustments (say, 15Â°)
    adc_begin_measure(_AB(ckps.stroke_period, 1) < 4);//start the process of measuring analog input values
 #ifdef STROBOSCOPE
    if (0==i)
@@ -1179,7 +1179,7 @@ static void process_ckps_cogs(void)
  }
 #endif
 
- //tooth passed - angle before TDC decreased (e.g 6° per tooth for 60-2).
+ //tooth passed - angle before TDC decreased (e.g 6Â° per tooth for 60-2).
  ckps.current_angle-= ckps.degrees_per_cog;
 
 #ifdef PHASE_SENSOR
@@ -1219,7 +1219,7 @@ ISR(TIMER1_CAPT_vect)
   {
    if (ckps.cog != ckps.wheel_cogs_nump1) //check if sync is correct
     SETBIT(flags, F_ERROR); //ERROR
-   ckps.cog = 1; //each 720°
+   ckps.cog = 1; //each 720Â°
   }
  }
  else

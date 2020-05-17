@@ -491,8 +491,8 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   .inj_cyl_disp =                CYL_DISP(0.375),      //0.375L (1.5/4)      (for management software only)
   .inj_sd_igl_const =            {86207, 114192},      //((0.375L * 3.482 * 18750000) / 142g) * ((1 * 4) / (2 * 4)), petrol density is 0.71 g/cc, 1bank,4cyl,2squirts,4injectors
                                                        //((0.375L * 3.482 * 18750000) / 107.2g) * ((1 * 4) / (2 * 4)), LPG density is 0.536 g/cc, 1bank,4cyl,2squirts,4injectors
-  .inj_prime_cold =              _DLV(6.0),            //6 ms at -30°C
-  .inj_prime_hot =               _DLV(2.0),            //2 ms at 70°C
+  .inj_prime_cold =              _DLV(6.0),            //6 ms at -30В°C
+  .inj_prime_hot =               _DLV(2.0),            //2 ms at 70В°C
   .inj_prime_delay =             SYS_TIMEX10_S(2.0),   //fire prime pulse after 2 seconds
 
   .inj_cranktorun_time =         SYS_TIME_S(3.00),     //3 seconds
@@ -502,16 +502,16 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   .inj_lambda_step_size_p =      EGO_CORR(2.5),        //2.5%
   .inj_lambda_corr_limit_p =     EGO_CORR(30.0),       //30% max
   .inj_lambda_swt_point =        VOLTAGE_MAGNITUDE(0.5), //0.5V
-  .inj_lambda_temp_thrd =        TEMPERATURE_MAGNITUDE(60.0), //60°C
+  .inj_lambda_temp_thrd =        TEMPERATURE_MAGNITUDE(60.0), //60В°C
   .inj_lambda_rpm_thrd =         1200,                 //1200 min-1
   .inj_lambda_activ_delay =      45,                   //activation after 45 seconds
 
   .inj_ae_tpsdot_thrd =          50,                   //50%/sec
-  .inj_ae_coldacc_mult =         AE_CAM(1.5),          //*150% at -30°C, allowed range is 1.0...2.99
+  .inj_ae_coldacc_mult =         AE_CAM(1.5),          //*150% at -30В°C, allowed range is 1.0...2.99
 
   .gd_steps =                    256,                  //256 steps, gas dose number of steps
 
-  .inj_timing =                  {0,0},                //TDC (0 = 720°)
+  .inj_timing =                  {0,0},                //TDC (0 = 720В°)
 
   .flpmp_flags =                 _BV(FPF_OFFONGAS),    //turn off fuel pump when GAS_V = 1
 
@@ -551,7 +551,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   .idl_iacminpos =               20,                   //10%
   .idl_iacmaxpos =               180,                  //90%
 
-  .hall_degrees_btdc =           60*32,                //60° BTDC
+  .hall_degrees_btdc =           60*32,                //60В° BTDC
 
   .vss_period_dist =             ROUND(0.16666*32768), //0.16666m per pulse, max 0.9999
 
@@ -593,7 +593,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   .fp_timeout_strt =             SYS_TIME_S(5.0)/10,  //5 seconds
 
   .eh_heating_time =             {15, 30},            //15 and 30 seconds
-  .eh_temper_thrd =              70,                  //70 °C
+  .eh_temper_thrd =              70,                  //70 В°C
   .eh_heating_act =              SYSTIM_MAGS(0.06),   //60 ms
   .eh_aflow_thrd =               10000,               //value = (load * rpm) / 32
 
@@ -602,9 +602,9 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   .crc =                         0
  },
 
- /**Дополнительные данные по умолчанию Fill additional data with default values */
+ /**Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ Fill additional data with default values */
  {
-  /**Таблица аттенюатора, по умолчанию k = 1.000
+  /**РўР°Р±Р»РёС†Р° Р°С‚С‚РµРЅСЋР°С‚РѕСЂР°, РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ k = 1.000
    * attenuator's lookup table (for knock channel), by default k = 1.000 */
   {0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,
    0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,
@@ -773,21 +773,21 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   /**Fill CLT grid cell sizes lookup table*/
   {_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0),_CLT(10.0)},
 
-  .evap_clt = TEMPERATURE_MAGNITUDE(75.0), //75°C
+  .evap_clt = TEMPERATURE_MAGNITUDE(75.0), //75В°C
   .evap_tps_lo = TPS_MAGNITUDE(4.0), //4%
   .evap_tps_hi = TPS_MAGNITUDE(98.0), //98%
   .fi_enter_strokes = 5,  //5 strokes
   .fi_leave_strokes = 5,  //5 strokes
   .iac_cond_add = 15*2,    //+15%
   .inj_max_pw = 31250,     //100ms
-  .aircond_clt = TEMPERATURE_MAGNITUDE(75.0), //75°C
+  .aircond_clt = TEMPERATURE_MAGNITUDE(75.0), //75В°C
   .aircond_tps = TPS_MAGNITUDE(68.0), //68%
   .idl_ve = ROUND(0*2048), //turned off
   .frap = PRESSURE_MAGNITUDE(0.0), //absolute pressure in the fuel rail
   .idl_ve_g = ROUND(0*2048), //turned off
   .stbl_str_cnt = 10, //10 strokes
-  .knkclt_thrd = TEMPERATURE_MAGNITUDE(70.0), //70°C
-  .heating_t_off = TEMPERATURE_MAGNITUDE(65.0), //65°C
+  .knkclt_thrd = TEMPERATURE_MAGNITUDE(70.0), //70В°C
+  .heating_t_off = TEMPERATURE_MAGNITUDE(65.0), //65В°C
   .heating_time = 100, //10 min
   .idltorun_stp_en = 8, //0.25%
   .idltorun_stp_le = 8, //0.25%
@@ -832,7 +832,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
    {0x22,0x1C,0x19,0x16,0x13,0x0F,0x0C,0x0A,0x07,0x05,0x02,0x00,0x00,0xFD,0xF6,0xEC},  //Correction of ignition timing vs CLT
 
    //Maps for fuel injection
-   /**Fill VE lookup table, value can be in range 0...1.99 / Таблица задающая коэффициент наполнения цилиндра */
+   /**Fill VE lookup table, value can be in range 0...1.99 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР°РїРѕР»РЅРµРЅРёСЏ С†РёР»РёРЅРґСЂР° */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //16
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //15
@@ -851,7 +851,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, // 2
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}  // 1
    },
-   /**Fill AFR lookup table, value can be in range 8.1...22.0 / Таблица задающая соотношение воздух : топливо */
+   /**Fill AFR lookup table, value can be in range 8.1...22.0 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ РІРѕР·РґСѓС… : С‚РѕРїР»РёРІРѕ */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //16
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //15
@@ -890,19 +890,19 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0))}, // 1
    },
 
-   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / длительность впрыска на пуске */
+   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РІРїСЂС‹СЃРєР° РЅР° РїСѓСЃРєРµ */
    {// -30           -20        -10           0        10            20         30          40
     _DLV(10.20), _DLV(9.30), _DLV(8.60), _DLV(8.00), _DLV(7.25), _DLV(6.65), _DLV(6.00), _DLV(5.4),
     //  50            60         70          80        90           100        110         120
     _DLV(4.80), _DLV(4.20), _DLV(3.75), _DLV(3.30), _DLV(2.90), _DLV(2.55), _DLV(2.30), _DLV(2.15)
    },
-   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / обогащение при прогреве */
+   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / РѕР±РѕРіР°С‰РµРЅРёРµ РїСЂРё РїСЂРѕРіСЂРµРІРµ */
    {// -30        -20        -10          0        10          20         30         40
     _WLV(160), _WLV(156), _WLV(152), _WLV(147), _WLV(142), _WLV(137), _WLV(133), _WLV(129),
     //  50         60         70         80        90          100        110        120
     _WLV(126), _WLV(123), _WLV(120), _WLV(117), _WLV(114), _WLV(110), _WLV(105), _WLV(100)
    },
-   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / время открытия форсунки (динам. производ.)*/
+   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / РІСЂРµРјСЏ РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂСЃСѓРЅРєРё (РґРёРЅР°Рј. РїСЂРѕРёР·РІРѕРґ.)*/
    {//  5.4       5.8        6.2        6.6         7.0        7.4        7.8        8.2
     _DLV(5.80),_DLV(4.50),_DLV(3.80),_DLV(3.30),_DLV(3.00),_DLV(2.75),_DLV(2.50),_DLV(2.30),
     //  8.6       9.0        9.4        9.8        10.2       10.6       11.0       11.4
@@ -912,13 +912,13 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     // 15.0      15.4       15.8        16.2       16.6        17.0      17.4       17.8
     _DLV(1.12),_DLV(1.10),_DLV(1.06),_DLV(1.04),_DLV(1.02),_DLV(0.99),_DLV(0.97),_DLV(0.96)
    },
-   /**Fill IAC/PWM open-loop position lookup table (run mode) / положение ШД РХХ при работе*/
+   /**Fill IAC/PWM open-loop position lookup table (run mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РїСЂРё СЂР°Р±РѕС‚Рµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(46.0), _CLV(41.0), _CLV(38.0), _CLV(35.0), _CLV(33.0), _CLV(31.5), _CLV(30.4), _CLV(29.0),
     //  50            60         70          80        90           100        110         120
     _CLV(28.0), _CLV(26.7), _CLV(25.5), _CLV(24.4), _CLV(23.4), _CLV(22.2), _CLV(21.0), _CLV(20.0)
    },
-   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / положение ШД РХХ на пуске*/
+   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РЅР° РїСѓСЃРєРµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(65.0), _CLV(60.0), _CLV(55.0), _CLV(50.0), _CLV(46.0), _CLV(42.0), _CLV(38.2), _CLV(36.0),
     //  50            60         70          80        90           100        110         120
@@ -1011,7 +1011,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
    {'2','1','0','8','3',' ','D','y','n','a','m','i','c',' ',' ',' '},                  //name of set
    //tables used for ignition
    {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x04,0x08,0x0C,0x10,0x14,0x14,0x14},  //start map
-   {0x14,0x14,0x14,0x14,0x14,0x14,0x17,0x1D,0x28,0x32,0x36,0x37,0x37,0x37,0x37,0x37},  //ХХ карта
+   {0x14,0x14,0x14,0x14,0x14,0x14,0x17,0x1D,0x28,0x32,0x36,0x37,0x37,0x37,0x37,0x37},  //РҐРҐ РєР°СЂС‚Р°
    {
     {0x09,0x09,0x09,0x09,0x11,0x14,0x1A,0x20,0x26,0x24,0x30,0x33,0x3B,0x43,0x45,0x45}, //work map
     {0x09,0x09,0x09,0x09,0x11,0x14,0x1A,0x20,0x26,0x24,0x30,0x33,0x3B,0x43,0x45,0x45},
@@ -1032,8 +1032,8 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
    },
    {0x22,0x1C,0x19,0x16,0x13,0x0F,0x0C,0x0A,0x07,0x05,0x02,0x00,0x00,0xFD,0xF6,0xEC},  //coolant temperature correction map
 
-   //Таблицы для впрыска топлива
-   /**Fill VE lookup table, value can be in range 0...1.99 / Таблица задающая коэффициент наполнения цилиндра */
+   //РўР°Р±Р»РёС†С‹ РґР»СЏ РІРїСЂС‹СЃРєР° С‚РѕРїР»РёРІР°
+   /**Fill VE lookup table, value can be in range 0...1.99 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР°РїРѕР»РЅРµРЅРёСЏ С†РёР»РёРЅРґСЂР° */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //16
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //15
@@ -1052,7 +1052,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, // 2
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}  // 1
    },
-   /**Fill AFR lookup table, value can be in range 8.1...22.0 / Таблица задающая соотношение воздух : топливо */
+   /**Fill AFR lookup table, value can be in range 8.1...22.0 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ РІРѕР·РґСѓС… : С‚РѕРїР»РёРІРѕ */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //16
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //15
@@ -1091,19 +1091,19 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0))}, // 1
    },
 
-   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / длительность впрыска на пуске */
+   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РІРїСЂС‹СЃРєР° РЅР° РїСѓСЃРєРµ */
    {// -30           -20        -10           0        10            20         30          40
     _DLV(10.20), _DLV(9.30), _DLV(8.60), _DLV(8.00), _DLV(7.25), _DLV(6.65), _DLV(6.00), _DLV(5.4),
     //  50            60         70          80        90           100        110         120
     _DLV(4.80), _DLV(4.20), _DLV(3.75), _DLV(3.30), _DLV(2.90), _DLV(2.55), _DLV(2.30), _DLV(2.15)
    },
-   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / обогащение при прогреве */
+   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / РѕР±РѕРіР°С‰РµРЅРёРµ РїСЂРё РїСЂРѕРіСЂРµРІРµ */
    {// -30        -20        -10          0        10          20         30         40
     _WLV(160), _WLV(156), _WLV(152), _WLV(147), _WLV(142), _WLV(137), _WLV(133), _WLV(129),
     //  50         60         70         80        90          100        110       120
     _WLV(126), _WLV(123), _WLV(120), _WLV(117), _WLV(114), _WLV(110), _WLV(105), _WLV(100)
    },
-   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / время открытия форсунки (динам. производ.)*/
+   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / РІСЂРµРјСЏ РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂСЃСѓРЅРєРё (РґРёРЅР°Рј. РїСЂРѕРёР·РІРѕРґ.)*/
    {//  5.4       5.8        6.2        6.6         7.0        7.4        7.8        8.2
     _DLV(5.80),_DLV(4.50),_DLV(3.80),_DLV(3.30),_DLV(3.00),_DLV(2.75),_DLV(2.50),_DLV(2.30),
     //  8.6       9.0        9.4        9.8        10.2       10.6       11.0       11.4
@@ -1113,13 +1113,13 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     // 15.0      15.4       15.8        16.2       16.6        17.0      17.4       17.8
     _DLV(1.12),_DLV(1.10),_DLV(1.06),_DLV(1.04),_DLV(1.02),_DLV(0.99),_DLV(0.97),_DLV(0.96)
    },
-   /**Fill IAC/PWM open-loop position lookup table (run mode) / положение ШД РХХ при работе*/
+   /**Fill IAC/PWM open-loop position lookup table (run mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РїСЂРё СЂР°Р±РѕС‚Рµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(46.0), _CLV(41.0), _CLV(38.0), _CLV(35.0), _CLV(33.0), _CLV(31.5), _CLV(30.4), _CLV(29.0),
     //  50            60         70          80        90           100        110         120
     _CLV(28.0), _CLV(26.7), _CLV(25.5), _CLV(24.4), _CLV(23.4), _CLV(22.2), _CLV(21.0), _CLV(20.0)
    },
-   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / положение ШД РХХ на пуске*/
+   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РЅР° РїСѓСЃРєРµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(65.0), _CLV(60.0), _CLV(55.0), _CLV(50.0), _CLV(46.0), _CLV(42.0), _CLV(38.2), _CLV(36.0),
     //  50            60         70          80        90           100        110         120
@@ -1210,7 +1210,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
   {
    {'C','l','a','s','s','i','c',' ','1','.','5','L',' ',' ',' ',' '},
    {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x04,0x08,0x0C,0x10,0x14,0x14,0x14},
-   {0x14,0x14,0x14,0x14,0x14,0x14,0x17,0x1D,0x28,0x32,0x36,0x37,0x37,0x37,0x37,0x37},  //ХХ карта
+   {0x14,0x14,0x14,0x14,0x14,0x14,0x17,0x1D,0x28,0x32,0x36,0x37,0x37,0x37,0x37,0x37},  //РҐРҐ РєР°СЂС‚Р°
    {
     {0x0C,0x0C,0x0E,0x10,0x11,0x12,0x14,0x16,0x1B,0x1D,0x1F,0x21,0x22,0x24,0x27,0x27},
     {0x0E,0x0E,0x10,0x11,0x12,0x13,0x15,0x17,0x1C,0x20,0x24,0x25,0x26,0x26,0x29,0x29},
@@ -1231,8 +1231,8 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
    },
    {0x22,0x1C,0x19,0x16,0x13,0x0F,0x0C,0x0A,0x07,0x05,0x02,0x00,0x00,0xFD,0xF6,0xEC},
 
-   //Таблицы для впрыска топлива
-   /**Fill VE lookup table, value can be in range 0...1.99 / Таблица задающая коэффициент наполнения цилиндра */
+   //РўР°Р±Р»РёС†С‹ РґР»СЏ РІРїСЂС‹СЃРєР° С‚РѕРїР»РёРІР°
+   /**Fill VE lookup table, value can be in range 0...1.99 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ РєРѕСЌС„С„РёС†РёРµРЅС‚ РЅР°РїРѕР»РЅРµРЅРёСЏ С†РёР»РёРЅРґСЂР° */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //16
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, //15
@@ -1251,7 +1251,7 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}, // 2
     {_PACK16(_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00),_VE(1.00))}  // 1
    },
-   /**Fill AFR lookup table, value can be in range 8.1...22.0 / Таблица задающая соотношение воздух : топливо */
+   /**Fill AFR lookup table, value can be in range 8.1...22.0 / РўР°Р±Р»РёС†Р° Р·Р°РґР°СЋС‰Р°СЏ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ РІРѕР·РґСѓС… : С‚РѕРїР»РёРІРѕ */
    {//  600       720        840       990      1170      1380     1650      1950      2310      2730       3210      3840      4530      5370      6360      7500 (min-1)
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //16
     {_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7),_FR(14.7)}, //15
@@ -1290,19 +1290,19 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     {_PACK16(_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0),_IT(   0))}, // 1
    },
 
-   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / длительность впрыска на пуске */
+   /**Fill cranking pulse width lookup table, time in ms vs coolant temperature / РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РІРїСЂС‹СЃРєР° РЅР° РїСѓСЃРєРµ */
    {// -30           -20        -10           0        10            20         30          40
     _DLV(10.20), _DLV(9.30), _DLV(8.60), _DLV(8.00), _DLV(7.25), _DLV(6.65), _DLV(6.00), _DLV(5.4),
     //  50            60         70          80        90           100        110         120
     _DLV(4.80), _DLV(4.20), _DLV(3.75), _DLV(3.30), _DLV(2.90), _DLV(2.55), _DLV(2.30), _DLV(2.15)
    },
-   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / обогащение при прогреве */
+   /**Fill warmup enrichment lookup table, factor(0...199%) vs coolant temperature / РѕР±РѕРіР°С‰РµРЅРёРµ РїСЂРё РїСЂРѕРіСЂРµРІРµ */
    {// -30        -20        -10          0        10          20         30        40
     _WLV(160), _WLV(156), _WLV(152), _WLV(147), _WLV(142), _WLV(137), _WLV(133), _WLV(129),
     //  50         60         70         80        90          100        110       120
     _WLV(126), _WLV(123), _WLV(120), _WLV(117), _WLV(114), _WLV(110), _WLV(105), _WLV(100)
    },
-   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / время открытия форсунки (динам. производ.)*/
+   /**Fill injector dead time lookup table (Siemens DEKA ZMZ6354), time in ms vs voltage / РІСЂРµРјСЏ РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂСЃСѓРЅРєРё (РґРёРЅР°Рј. РїСЂРѕРёР·РІРѕРґ.)*/
    {//  5.4       5.8        6.2        6.6         7.0        7.4        7.8        8.2
     _DLV(5.80),_DLV(4.50),_DLV(3.80),_DLV(3.30),_DLV(3.00),_DLV(2.75),_DLV(2.50),_DLV(2.30),
     //  8.6       9.0        9.4        9.8        10.2       10.6       11.0       11.4
@@ -1312,13 +1312,13 @@ PGM_FIXED_ADDR_OBJ(fw_data_t fw_data, ".firmware_data") =
     // 15.0      15.4       15.8        16.2       16.6        17.0      17.4       17.8
     _DLV(1.12),_DLV(1.10),_DLV(1.06),_DLV(1.04),_DLV(1.02),_DLV(0.99),_DLV(0.97),_DLV(0.96)
    },
-   /**Fill IAC/PWM open-loop position lookup table (run mode) / положение ШД РХХ при работе*/
+   /**Fill IAC/PWM open-loop position lookup table (run mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РїСЂРё СЂР°Р±РѕС‚Рµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(46.0), _CLV(41.0), _CLV(38.0), _CLV(35.0), _CLV(33.0), _CLV(31.5), _CLV(30.4), _CLV(29.0),
     //  50            60         70          80        90           100        110         120
     _CLV(28.0), _CLV(26.7), _CLV(25.5), _CLV(24.4), _CLV(23.4), _CLV(22.2), _CLV(21.0), _CLV(20.0)
    },
-   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / положение ШД РХХ на пуске*/
+   /**Fill IAC/PWM open-loop position lookup table (cranking mode) / РїРѕР»РѕР¶РµРЅРёРµ РЁР” Р РҐРҐ РЅР° РїСѓСЃРєРµ*/
    {// -30           -20        -10           0        10            20         30          40
     _CLV(65.0), _CLV(60.0), _CLV(55.0), _CLV(50.0), _CLV(46.0), _CLV(42.0), _CLV(38.2), _CLV(36.0),
     //  50            60         70          80        90           100        110         120

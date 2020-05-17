@@ -39,7 +39,7 @@
 /**Voltage on the output of coolant temperature sensor at 0 degrees */
 #define TSENS_ZERO_POINT        2.73
 
-//константа для выбора источника опорного напряжения и коэфф. компенсации опорного напряжения
+//РєРѕРЅСЃС‚Р°РЅС‚Р° РґР»СЏ РІС‹Р±РѕСЂР° РёСЃС‚РѕС‡РЅРёРєР° РѕРїРѕСЂРЅРѕРіРѕ РЅР°РїСЂСЏР¶РµРЅРёСЏ Рё РєРѕСЌС„С„. РєРѕРјРїРµРЅСЃР°С†РёРё РѕРїРѕСЂРЅРѕРіРѕ РЅР°РїСЂСЏР¶РµРЅРёСЏ
 #ifdef VREF_5V //5V
  #define ADC_VREF_TYPE          0x40    //!< Vref selection constant for 5V
  #define ADC_VREF_FACTOR        1.9531  //!< Vref compensation factor (5.0V/2.56V)
@@ -97,35 +97,35 @@ int16_t adc_get_tpsdot_value(void);
  */
 uint16_t adc_get_knock_value(void);
 
-/**запускает измерение значений с датчиков, но только если предыдущее
- * измерение завершено.
- * \param speed2x Double ADC clock (0,1) (Удвоение тактовой частоты АЦП)
+/**Р·Р°РїСѓСЃРєР°РµС‚ РёР·РјРµСЂРµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ СЃ РґР°С‚С‡РёРєРѕРІ, РЅРѕ С‚РѕР»СЊРєРѕ РµСЃР»Рё РїСЂРµРґС‹РґСѓС‰РµРµ
+ * РёР·РјРµСЂРµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ.
+ * \param speed2x Double ADC clock (0,1) (РЈРґРІРѕРµРЅРёРµ С‚Р°РєС‚РѕРІРѕР№ С‡Р°СЃС‚РѕС‚С‹ РђР¦Рџ)
  */
 void adc_begin_measure(uint8_t speed2x);
 
 #ifndef TPIC8101
-/**запускает измерение значения с интегратора канала детонации. Так как после установки
- * сигнала INT/HOLD в 0 выход INTOUT перейдет в полностью корректное состояние только через
- * 20мкс (приблизительно), а запуск измерения может быть произведен сразу, то делаем первое
- * измерение холостым.
- * \param speed2x Double ADC clock (0,1) (Удвоение тактовой частоты АЦП)
+/**Р·Р°РїСѓСЃРєР°РµС‚ РёР·РјРµСЂРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЃ РёРЅС‚РµРіСЂР°С‚РѕСЂР° РєР°РЅР°Р»Р° РґРµС‚РѕРЅР°С†РёРё. РўР°Рє РєР°Рє РїРѕСЃР»Рµ СѓСЃС‚Р°РЅРѕРІРєРё
+ * СЃРёРіРЅР°Р»Р° INT/HOLD РІ 0 РІС‹С…РѕРґ INTOUT РїРµСЂРµР№РґРµС‚ РІ РїРѕР»РЅРѕСЃС‚СЊСЋ РєРѕСЂСЂРµРєС‚РЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ С‚РѕР»СЊРєРѕ С‡РµСЂРµР·
+ * 20РјРєСЃ (РїСЂРёР±Р»РёР·РёС‚РµР»СЊРЅРѕ), Р° Р·Р°РїСѓСЃРє РёР·РјРµСЂРµРЅРёСЏ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСЂРѕРёР·РІРµРґРµРЅ СЃСЂР°Р·Сѓ, С‚Рѕ РґРµР»Р°РµРј РїРµСЂРІРѕРµ
+ * РёР·РјРµСЂРµРЅРёРµ С…РѕР»РѕСЃС‚С‹Рј.
+ * \param speed2x Double ADC clock (0,1) (РЈРґРІРѕРµРЅРёРµ С‚Р°РєС‚РѕРІРѕР№ С‡Р°СЃС‚РѕС‚С‹ РђР¦Рџ)
  */
 void adc_begin_measure_knock(uint8_t speed2x);
 #endif
 
-/**проверка готовности АЦП
- *\return возвращает не 0 если измерение готово (АЦП не занято)
+/**РїСЂРѕРІРµСЂРєР° РіРѕС‚РѕРІРЅРѕСЃС‚Рё РђР¦Рџ
+ *\return РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµ 0 РµСЃР»Рё РёР·РјРµСЂРµРЅРёРµ РіРѕС‚РѕРІРѕ (РђР¦Рџ РЅРµ Р·Р°РЅСЏС‚Рѕ)
  */
 uint8_t adc_is_measure_ready(void);
 
-/**инициализация АЦП и его переменных состояния */
+/**РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РђР¦Рџ Рё РµРіРѕ РїРµСЂРµРјРµРЅРЅС‹С… СЃРѕСЃС‚РѕСЏРЅРёСЏ */
 void adc_init(void);
 
-/**компенсация погрешностей АЦП или входных цепей (погрешность смещения и передаточная погрешность)
- * \param adcvalue значение АЦП для компенсации
- * \param factor коэффициен масштабирования
- * \param correction смещение
- * \return compensated value (компенсированное значение)
+/**РєРѕРјРїРµРЅСЃР°С†РёСЏ РїРѕРіСЂРµС€РЅРѕСЃС‚РµР№ РђР¦Рџ РёР»Рё РІС…РѕРґРЅС‹С… С†РµРїРµР№ (РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ СЃРјРµС‰РµРЅРёСЏ Рё РїРµСЂРµРґР°С‚РѕС‡РЅР°СЏ РїРѕРіСЂРµС€РЅРѕСЃС‚СЊ)
+ * \param adcvalue Р·РЅР°С‡РµРЅРёРµ РђР¦Рџ РґР»СЏ РєРѕРјРїРµРЅСЃР°С†РёРё
+ * \param factor РєРѕСЌС„С„РёС†РёРµРЅ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёСЏ
+ * \param correction СЃРјРµС‰РµРЅРёРµ
+ * \return compensated value (РєРѕРјРїРµРЅСЃРёСЂРѕРІР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ)
  * \details
  * factor = 2^14 * gainfactor,
  * correction = 2^14 * (0.5 - offset * gainfactor),
@@ -133,42 +133,42 @@ void adc_init(void);
  */
 int16_t adc_compensate(int16_t adcvalue, uint16_t factor, int32_t correction);
 
-/**переводит значение АЦП в физическую величину - давление
- * \param adcvalue значение в дискретах АЦП
- * \param offset смещение кривой ДАД (Curve offset. Can be negative)
- * \param gradient наклон кривой ДАД (Curve gradient. If < 0, then it means characteristic curve is inverted)
- * \return физическая величина * MAP_PHYSICAL_MAGNITUDE_MULTIPLIER
+/**РїРµСЂРµРІРѕРґРёС‚ Р·РЅР°С‡РµРЅРёРµ РђР¦Рџ РІ С„РёР·РёС‡РµСЃРєСѓСЋ РІРµР»РёС‡РёРЅСѓ - РґР°РІР»РµРЅРёРµ
+ * \param adcvalue Р·РЅР°С‡РµРЅРёРµ РІ РґРёСЃРєСЂРµС‚Р°С… РђР¦Рџ
+ * \param offset СЃРјРµС‰РµРЅРёРµ РєСЂРёРІРѕР№ Р”РђР” (Curve offset. Can be negative)
+ * \param gradient РЅР°РєР»РѕРЅ РєСЂРёРІРѕР№ Р”РђР” (Curve gradient. If < 0, then it means characteristic curve is inverted)
+ * \return С„РёР·РёС‡РµСЃРєР°СЏ РІРµР»РёС‡РёРЅР° * MAP_PHYSICAL_MAGNITUDE_MULTIPLIER
  * \details
- * offset  = offset_volts / ADC_DISCRETE, где offset_volts - значение в вольтах;
- * gradient = 128 * gradient_kpa * MAP_PHYSICAL_MAGNITUDE_MULTIPLIER * ADC_DISCRETE, где gradient_kpa значение в кило-паскалях
+ * offset  = offset_volts / ADC_DISCRETE, РіРґРµ offset_volts - Р·РЅР°С‡РµРЅРёРµ РІ РІРѕР»СЊС‚Р°С…;
+ * gradient = 128 * gradient_kpa * MAP_PHYSICAL_MAGNITUDE_MULTIPLIER * ADC_DISCRETE, РіРґРµ gradient_kpa Р·РЅР°С‡РµРЅРёРµ РІ РєРёР»Рѕ-РїР°СЃРєР°Р»СЏС…
  */
 uint16_t map_adc_to_kpa(int16_t adcvalue, int16_t offset, int16_t gradient);
 
-/**переводит значение АЦП в физическую величину - напряжение
- * \param adcvalue значение в дискретах АЦП
- * \return физическая величина * UBAT_PHYSICAL_MAGNITUDE_MULTIPLIER
+/**РїРµСЂРµРІРѕРґРёС‚ Р·РЅР°С‡РµРЅРёРµ РђР¦Рџ РІ С„РёР·РёС‡РµСЃРєСѓСЋ РІРµР»РёС‡РёРЅСѓ - РЅР°РїСЂСЏР¶РµРЅРёРµ
+ * \param adcvalue Р·РЅР°С‡РµРЅРёРµ РІ РґРёСЃРєСЂРµС‚Р°С… РђР¦Рџ
+ * \return С„РёР·РёС‡РµСЃРєР°СЏ РІРµР»РёС‡РёРЅР° * UBAT_PHYSICAL_MAGNITUDE_MULTIPLIER
  */
 uint16_t ubat_adc_to_v(int16_t adcvalue);
 
 /**Converts ADC value into phisical magnituge - temperature (given from linear sensor)
- * Переводит значение АЦП в физическую величину - температура, для линейного датчика
- * \param adcvalue Voltage from sensor (напряжение с датчика - значение в дискретах АЦП)
- * \return физическая величина * TEMP_PHYSICAL_MAGNITUDE_MULTIPLIER
+ * РџРµСЂРµРІРѕРґРёС‚ Р·РЅР°С‡РµРЅРёРµ РђР¦Рџ РІ С„РёР·РёС‡РµСЃРєСѓСЋ РІРµР»РёС‡РёРЅСѓ - С‚РµРјРїРµСЂР°С‚СѓСЂР°, РґР»СЏ Р»РёРЅРµР№РЅРѕРіРѕ РґР°С‚С‡РёРєР°
+ * \param adcvalue Voltage from sensor (РЅР°РїСЂСЏР¶РµРЅРёРµ СЃ РґР°С‚С‡РёРєР° - Р·РЅР°С‡РµРЅРёРµ РІ РґРёСЃРєСЂРµС‚Р°С… РђР¦Рџ)
+ * \return С„РёР·РёС‡РµСЃРєР°СЏ РІРµР»РёС‡РёРЅР° * TEMP_PHYSICAL_MAGNITUDE_MULTIPLIER
  */
 int16_t temp_adc_to_c(int16_t adcvalue);
 
 /**Converts ADC value of the Throttle Position Sensor to the percentage of throttle opening
- * \param adcvalue значение в дискретах АЦП (Value in ADC discretes)
- * \param offset смещение кривой ДПДЗ (Curve offset. Can be negative)
- * \param gradient наклон кривой ДПДЗ (Curve gradient)
+ * \param adcvalue Р·РЅР°С‡РµРЅРёРµ РІ РґРёСЃРєСЂРµС‚Р°С… РђР¦Рџ (Value in ADC discretes)
+ * \param offset СЃРјРµС‰РµРЅРёРµ РєСЂРёРІРѕР№ Р”РџР”Р— (Curve offset. Can be negative)
+ * \param gradient РЅР°РєР»РѕРЅ РєСЂРёРІРѕР№ Р”РџР”Р— (Curve gradient)
  * \return percentage * 2 (e.g. value of 200 is 100%)
  */
 uint8_t tps_adc_to_pc(int16_t adcvalue, int16_t offset, int16_t gradient);
 
 #if defined(FUEL_INJECT) || defined(GD_CONTROL)
 /**Converts ADC value discretes/sec of the TPSdot to the %/sec value
- * \param adcvalue значение в дискретах АЦП (Value in ADC discretes)
- * \param gradient наклон кривой ДПДЗ (Curve gradient)
+ * \param adcvalue Р·РЅР°С‡РµРЅРёРµ РІ РґРёСЃРєСЂРµС‚Р°С… РђР¦Рџ (Value in ADC discretes)
+ * \param gradient РЅР°РєР»РѕРЅ РєСЂРёРІРѕР№ Р”РџР”Р— (Curve gradient)
  * \return percentage/sec
  */
 int16_t tpsdot_adc_to_pc(int16_t adcvalue, int16_t gradient);

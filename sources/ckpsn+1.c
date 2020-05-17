@@ -238,7 +238,7 @@ void ckps_init_ports(void)
 }
 
 //Instantaneous frequency calculation of crankshaft rotation from the measured period between the engine strokes
-//(for example for 4-cylinder, 4-stroke it is 180°)
+//(for example for 4-cylinder, 4-stroke it is 180Â°)
 //Period measured in the discretes of timer (one discrete = 4us), one minute = 60 seconds, one second has 1,000,000 us.
 uint16_t ckps_calculate_instant_freq(void)
 {
@@ -634,7 +634,7 @@ sync_enter:
 
  hall.channel_mode_a = hall.cog-1;
 
- OCR1A = tmr + ((delay < 15) ? 15 : delay) - CALIBRATION_DELAY; //set compare channel, additionally prevent spark missing when advance angle is near to 60°
+ OCR1A = tmr + ((delay < 15) ? 15 : delay) - CALIBRATION_DELAY; //set compare channel, additionally prevent spark missing when advance angle is near to 60Â°
  TIFR1 = _BV(OCF1A);
  TIMSK1|= _BV(OCIE1A);
 

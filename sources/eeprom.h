@@ -23,7 +23,7 @@
  * \author Alexey A. Shabelnikov
  * EEPROM related functions (API).
  * Functions for read/write EEPROM and related functionality
- * (Функции для для чтения/записи EEPROM и связанная с ним функциональность)
+ * (Р¤СѓРЅРєС†РёРё РґР»СЏ РґР»СЏ С‡С‚РµРЅРёСЏ/Р·Р°РїРёСЃРё EEPROM Рё СЃРІСЏР·Р°РЅРЅР°СЏ СЃ РЅРёРј С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ)
  */
 
 #ifndef _SECU3_EEPROM_H_
@@ -32,10 +32,10 @@
 #include "port/pgmspace.h"
 #include <stdint.h>
 
-/**Address of parameters structure in EEPROM (адрес структуры параметров в EEPROM) */
+/**Address of parameters structure in EEPROM (Р°РґСЂРµСЃ СЃС‚СЂСѓРєС‚СѓСЂС‹ РїР°СЂР°РјРµС‚СЂРѕРІ РІ EEPROM) */
 #define EEPROM_PARAM_START     0x001
 
-/**Address of errors's array (Check Engine) in EEPROM (адрес массива ошибок (Check Engine) в EEPROM) */
+/**Address of errors's array (Check Engine) in EEPROM (Р°РґСЂРµСЃ РјР°СЃСЃРёРІР° РѕС€РёР±РѕРє (Check Engine) РІ EEPROM) */
 #define EEPROM_ECUERRORS_START (EEPROM_PARAM_START+(sizeof(params_t)))
 
 /**Address of tables which can be edited in real time */
@@ -44,10 +44,10 @@
 /**Address of magic number in EEPROM (last 4 bytes) */
 #define EEPROM_MAGIC_START (E2END-3)
 
-//Interface of module (интерфейс модуля)
+//Interface of module (РёРЅС‚РµСЂС„РµР№СЃ РјРѕРґСѓР»СЏ)
 
 /**Start writing process of EEPROM for selected block of data
- * (запускает процесс записи в EEPROM указанного блока данных)
+ * (Р·Р°РїСѓСЃРєР°РµС‚ РїСЂРѕС†РµСЃСЃ Р·Р°РїРёСЃРё РІ EEPROM СѓРєР°Р·Р°РЅРЅРѕРіРѕ Р±Р»РѕРєР° РґР°РЅРЅС‹С…)
  * \param opcode some code which will be remembered and can be retrieved when process finishes
  * \param eeaddr address in the EEPROM for write into
  * \param sramaddr address of block of data in RAM
@@ -56,13 +56,13 @@
 void eeprom_start_wr_data(uint8_t opcode, uint16_t eeaddr, void* sramaddr, uint16_t size);
 
 /**Checks if EEPROM is busy
- * (возвращает не 0 если в текущий момент никакая операция не выполняется).
+ * (РІРѕР·РІСЂР°С‰Р°РµС‚ РЅРµ 0 РµСЃР»Рё РІ С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚ РЅРёРєР°РєР°СЏ РѕРїРµСЂР°С†РёСЏ РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ).
  * \return 0 - busy, > 0 - idle
  */
 uint8_t eeprom_is_idle(void);
 
 /**Reads specified block of data from EEPROM to RAM (without using of interrupts)
- * читает указанный блок данных из EEPROM (без использования прерываний)
+ * С‡РёС‚Р°РµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ Р±Р»РѕРє РґР°РЅРЅС‹С… РёР· EEPROM (Р±РµР· РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРµСЂС‹РІР°РЅРёР№)
  * \param sram_dest address of buffer in the RAM which will receive data
  * \param eeaddr address in the EEPROM for read from
  * \param size size of data block to read
@@ -70,7 +70,7 @@ uint8_t eeprom_is_idle(void);
 void eeprom_read(void* sram_dest, uint16_t eeaddr, uint16_t size);
 
 /**Writes specified block of data from RAM into EEPROM (without using of interrupts)
- * записывает указанный блок данных в EEPROM (без использования прерываний)
+ * Р·Р°РїРёСЃС‹РІР°РµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ Р±Р»РѕРє РґР°РЅРЅС‹С… РІ EEPROM (Р±РµР· РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРµСЂС‹РІР°РЅРёР№)
  * \param sram_src address of buffer in the RAM which contains data to write
  * \param eeaddr address in the EEPROM for write into
  * \param size size of block of data to write
@@ -78,7 +78,7 @@ void eeprom_read(void* sram_dest, uint16_t eeaddr, uint16_t size);
 void eeprom_write(const void* sram_src, uint16_t eeaddr, uint16_t size);
 
 /**Writes specified block of data from FLASH into EEPROM (without using of interrupts)
- * записывает указанный блок данных в EEPROM (без использования прерываний)
+ * Р·Р°РїРёСЃС‹РІР°РµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ Р±Р»РѕРє РґР°РЅРЅС‹С… РІ EEPROM (Р±РµР· РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРµСЂС‹РІР°РЅРёР№)
  * \param pgm_src address of buffer in the FLASH wich contains data to write
  * \param eeaddr address in the EEPROM for write into
  * \param size size of block of data to write
@@ -86,7 +86,7 @@ void eeprom_write(const void* sram_src, uint16_t eeaddr, uint16_t size);
 void eeprom_write_P(void _PGM *pgm_src, uint16_t eeaddr, uint16_t size);
 
 /**Returns code of last finished operation (code which was passed into eeprom_start_wr_data())
- * возвращает код выполненной операции (код переданный в функцию eeprom_start_wr_data())
+ * РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕРґ РІС‹РїРѕР»РЅРµРЅРЅРѕР№ РѕРїРµСЂР°С†РёРё (РєРѕРґ РїРµСЂРµРґР°РЅРЅС‹Р№ РІ С„СѓРЅРєС†РёСЋ eeprom_start_wr_data())
  * \return code of last finished operation
  */
 uint8_t eeprom_take_completed_opcode(void);

@@ -27,7 +27,7 @@
 /*Structure of program memory's allocation of the SECU-3 firmware
  *     _  ________________________
  *  c |  |                        |
- *  o |  |       ÍÓ‰              |
+ *  o |  |       –∫–æ–¥              |
  *  d |  |       code             |
  *  e |  |------------------------|<--- free space between code and data (usually FF)
  *    |  |                        |
@@ -511,7 +511,7 @@ typedef struct params_t
   // Choke control
   uint16_t sm_steps;                     //!< Number of steps of choke stepper motor
   uint16_t choke_rpm_if;                 //!< Integral factor for RPM-based control of choke position (factor * 1024)
-  uint16_t choke_corr_time[2];           //!< Time for startup correction will be applied at -30∞C and 40∞C (2 points function)
+  uint16_t choke_corr_time[2];           //!< Time for startup correction will be applied at -30¬∞C and 40¬∞C (2 points function)
 
   // Bluetooth and security
   uint8_t  bt_flags;                     //!< Bluetooth and security related flags
@@ -527,8 +527,8 @@ typedef struct params_t
   uint16_t inj_cyl_disp;                 //!< The displacement of one cylinder in liters * 16384
   uint32_t inj_sd_igl_const[2];          //!< Constant used in speed-density algorithm to calculate PW. Const = ((CYL_DISP * 3.482 * 18750000) / Ifr ) * ((Nbnk * Ncyl) / (Nsq * Ninj))
 
-  uint16_t inj_prime_cold;               //!< Prime pulse PW at cold (CLT=-30∞C)
-  uint16_t inj_prime_hot;                //!< Prime pulse PW at hot (CLT=70∞C)
+  uint16_t inj_prime_cold;               //!< Prime pulse PW at cold (CLT=-30¬∞C)
+  uint16_t inj_prime_hot;                //!< Prime pulse PW at hot (CLT=70¬∞C)
   uint8_t  inj_prime_delay;              //!< Prime pulse delay in 0.1 sec units
 
   uint16_t inj_cranktorun_time;          //!< Time in seconds for going from the crank position to the run position (1 tick = 10ms)
@@ -543,7 +543,7 @@ typedef struct params_t
   uint8_t  inj_lambda_activ_delay;       //!< Lambda sensor activation delay
 
   uint8_t  inj_ae_tpsdot_thrd;           //!< TPS %/sec threshold, max rate is 255%/sec
-  uint8_t  inj_ae_coldacc_mult;          //!< Cold acceleration multiplier (-30∞C), (value - 1.0) * 128
+  uint8_t  inj_ae_coldacc_mult;          //!< Cold acceleration multiplier (-30¬∞C), (value - 1.0) * 128
 
   uint16_t gd_steps;                     //!< Number of steps of gas dosator stepper motor
 

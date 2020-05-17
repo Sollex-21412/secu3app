@@ -78,52 +78,52 @@ void delay_25ms(void)
  _DELAY_US(1000);    //1ms
 }
 
-//Обработка операций которые могут требовать или требуют оложенного выполнения.
+//РћР±СЂР°Р±РѕС‚РєР° РѕРїРµСЂР°С†РёР№ РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ С‚СЂРµР±РѕРІР°С‚СЊ РёР»Рё С‚СЂРµР±СѓСЋС‚ РѕР»РѕР¶РµРЅРЅРѕРіРѕ РІС‹РїРѕР»РЅРµРЅРёСЏ.
 void sop_execute_operations(void)
 {
  if (sop_is_operation_active(SOP_SAVE_PARAMETERS))
  {
-  //мы не можем начать сохранение параметров, так как EEPROM на данный момент занято - сохранение
-  //откладывается и будет осуществлено когда EEPROM освободится и будет вновь вызвана эта функция.
+  //РјС‹ РЅРµ РјРѕР¶РµРј РЅР°С‡Р°С‚СЊ СЃРѕС…СЂР°РЅРµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ, С‚Р°Рє РєР°Рє EEPROM РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ Р·Р°РЅСЏС‚Рѕ - СЃРѕС…СЂР°РЅРµРЅРёРµ
+  //РѕС‚РєР»Р°РґС‹РІР°РµС‚СЃСЏ Рё Р±СѓРґРµС‚ РѕСЃСѓС‰РµСЃС‚РІР»РµРЅРѕ РєРѕРіРґР° EEPROM РѕСЃРІРѕР±РѕРґРёС‚СЃСЏ Рё Р±СѓРґРµС‚ РІРЅРѕРІСЊ РІС‹Р·РІР°РЅР° СЌС‚Р° С„СѓРЅРєС†РёСЏ.
   if (eeprom_is_idle())
   {
-   //для обеспечения атомарности данные будут скопированы в отдельный буфер и из него потом записаны в EEPROM.
+   //РґР»СЏ РѕР±РµСЃРїРµС‡РµРЅРёСЏ Р°С‚РѕРјР°СЂРЅРѕСЃС‚Рё РґР°РЅРЅС‹Рµ Р±СѓРґСѓС‚ СЃРєРѕРїРёСЂРѕРІР°РЅС‹ РІ РѕС‚РґРµР»СЊРЅС‹Р№ Р±СѓС„РµСЂ Рё РёР· РЅРµРіРѕ РїРѕС‚РѕРј Р·Р°РїРёСЃР°РЅС‹ РІ EEPROM.
    memcpy(&eeprom_parameters_cache, &d.param, sizeof(params_t));
    eeprom_parameters_cache.crc = crc16((uint8_t*)&eeprom_parameters_cache, sizeof(params_t)-PAR_CRC_SIZE); //calculate check sum
    eeprom_start_wr_data(OPCODE_EEPROM_PARAM_SAVE, EEPROM_PARAM_START, &eeprom_parameters_cache, sizeof(params_t));
 
-   //если была соответствующая ошибка, то она теряет смысл после того как в EEPROM будут
-   //записаны новые параметры с корректной контрольной суммой
+   //РµСЃР»Рё Р±С‹Р»Р° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰Р°СЏ РѕС€РёР±РєР°, С‚Рѕ РѕРЅР° С‚РµСЂСЏРµС‚ СЃРјС‹СЃР» РїРѕСЃР»Рµ С‚РѕРіРѕ РєР°Рє РІ EEPROM Р±СѓРґСѓС‚
+   //Р·Р°РїРёСЃР°РЅС‹ РЅРѕРІС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ СЃ РєРѕСЂСЂРµРєС‚РЅРѕР№ РєРѕРЅС‚СЂРѕР»СЊРЅРѕР№ СЃСѓРјРјРѕР№
    ce_clear_error(ECUERROR_EEPROM_PARAM_BROKEN);
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SAVE_PARAMETERS);
   }
  }
 
  if (sop_is_operation_active(SOP_SAVE_CE_MERGED_ERRORS))
  {
-  //Если EEPROM не занято, то необходимо сохранить массив с кодами ошибок Cehck Engine.
-  //Для сбережения ресурса EEPROM cохранение ошибки произойдет только в том случае, если
-  //она еще не была сохранена. Для этого производится чтение и сравнение.
+  //Р•СЃР»Рё EEPROM РЅРµ Р·Р°РЅСЏС‚Рѕ, С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ СЃРѕС…СЂР°РЅРёС‚СЊ РјР°СЃСЃРёРІ СЃ РєРѕРґР°РјРё РѕС€РёР±РѕРє Cehck Engine.
+  //Р”Р»СЏ СЃР±РµСЂРµР¶РµРЅРёСЏ СЂРµСЃСѓСЂСЃР° EEPROM cРѕС…СЂР°РЅРµРЅРёРµ РѕС€РёР±РєРё РїСЂРѕРёР·РѕР№РґРµС‚ С‚РѕР»СЊРєРѕ РІ С‚РѕРј СЃР»СѓС‡Р°Рµ, РµСЃР»Рё
+  //РѕРЅР° РµС‰Рµ РЅРµ Р±С‹Р»Р° СЃРѕС…СЂР°РЅРµРЅР°. Р”Р»СЏ СЌС‚РѕРіРѕ РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ С‡С‚РµРЅРёРµ Рё СЃСЂР°РІРЅРµРЅРёРµ.
   if (eeprom_is_idle())
   {
    ce_save_merged_errors(0);
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SAVE_CE_MERGED_ERRORS);
   }
  }
 
  if (sop_is_operation_active(SOP_SEND_NC_PARAMETERS_SAVED))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_EEPROM_PARAM_SAVE;
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SEND_NC_PARAMETERS_SAVED);
   }
  }
@@ -134,20 +134,20 @@ void sop_execute_operations(void)
   {
    ce_save_merged_errors(&d.ecuerrors_saved_transfer);
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SAVE_CE_ERRORS);
   }
  }
 
  if (sop_is_operation_active(SOP_SEND_NC_CE_ERRORS_SAVED))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_CE_SAVE_ERRORS;
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SEND_NC_CE_ERRORS_SAVED);
   }
  }
@@ -158,29 +158,29 @@ void sop_execute_operations(void)
   {
    eeprom_read(&d.ecuerrors_saved_transfer, EEPROM_ECUERRORS_START, sizeof(uint16_t));
    sop_set_operation(SOP_TRANSMIT_CE_ERRORS);
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_READ_CE_ERRORS);
   }
  }
 
  if (sop_is_operation_active(SOP_TRANSMIT_CE_ERRORS))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
-   uart_send_packet(CE_SAVED_ERR);    //теперь передатчик озабочен передачей данных
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   uart_send_packet(CE_SAVED_ERR);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_TRANSMIT_CE_ERRORS);
   }
  }
 
  if (sop_is_operation_active(SOP_SEND_FW_SIG_INFO))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
-   uart_send_packet(FWINFO_DAT);    //теперь передатчик озабочен передачей данных
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   uart_send_packet(FWINFO_DAT);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SEND_FW_SIG_INFO);
   }
  }
@@ -188,14 +188,14 @@ void sop_execute_operations(void)
 #ifdef REALTIME_TABLES
  if (sop_is_operation_active(SOP_SEND_NC_TABLSET_LOADED))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_LOAD_TABLSET;
    _AB(d.op_comp_code, 1) = 0; //not used
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SEND_NC_TABLSET_LOADED);
   }
  }
@@ -210,21 +210,21 @@ void sop_execute_operations(void)
    // bbbb - index of tables set to load from, begins from FLASH's indexes
    uint8_t index = (_AB(d.op_actn_code, 1) & 0xF);
    load_specified_tables_into_ram(index);
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_LOAD_TABLSET);
   }
  }
 
  if (sop_is_operation_active(SOP_SEND_NC_TABLSET_SAVED))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_SAVE_TABLSET;
    _AB(d.op_comp_code, 1) = 0; //not used
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SEND_NC_TABLSET_SAVED);
   }
  }
@@ -236,7 +236,7 @@ void sop_execute_operations(void)
   {
    eeprom_start_wr_data(OPCODE_SAVE_TABLSET, EEPROM_REALTIME_TABLES_START, &d.tables_ram, sizeof(f_data_t));
 
-   //"удаляем" эту операцию из списка так как она уже выполнилась.
+   //"СѓРґР°Р»СЏРµРј" СЌС‚Сѓ РѕРїРµСЂР°С†РёСЋ РёР· СЃРїРёСЃРєР° С‚Р°Рє РєР°Рє РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРёР»Р°СЃСЊ.
    sop_reset_operation(SOP_SAVE_TABLSET);
   }
  }
@@ -246,7 +246,7 @@ void sop_execute_operations(void)
 #ifdef DEBUG_VARIABLES
  if (sop_is_operation_active(SOP_DBGVAR_SENDING))
  {
-  //Is sender busy (передатчик занят)?
+  //Is sender busy (РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚)?
   if (!uart_is_sender_busy())
   {
    uart_send_packet(DBGVAR_DAT);    //send packet with debug information
@@ -259,22 +259,22 @@ void sop_execute_operations(void)
 #ifdef DIAGNOSTICS
  if (sop_is_operation_active(SOP_SEND_NC_ENTER_DIAG))
  {
-  //Is sender busy (передатчик занят)?
+  //Is sender busy (РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚)?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_DIAGNOST_ENTER;
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
    //"delete" this operation from list because it has already completed
    sop_reset_operation(SOP_SEND_NC_ENTER_DIAG);
   }
  }
  if (sop_is_operation_active(SOP_SEND_NC_LEAVE_DIAG))
  {
-  //Is sender busy (передатчик занят)?
+  //Is sender busy (РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚)?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_DIAGNOST_LEAVE;
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
    delay_25ms();       //wait 25ms because of pending UART packet
    wdt_reset_device(); //wait for death :-)
   }
@@ -283,18 +283,18 @@ void sop_execute_operations(void)
 
  if (sop_is_operation_active(SOP_SEND_NC_RESET_EEPROM))
  {
-  //передатчик занят?
+  //РїРµСЂРµРґР°С‚С‡РёРє Р·Р°РЅСЏС‚?
   if (!uart_is_sender_busy())
   {
    _AB(d.op_comp_code, 0) = OPCODE_RESET_EEPROM;
    _AB(d.op_comp_code, 1) = 0x55;
-   uart_send_packet(OP_COMP_NC);    //теперь передатчик озабочен передачей данных
+   uart_send_packet(OP_COMP_NC);    //С‚РµРїРµСЂСЊ РїРµСЂРµРґР°С‚С‡РёРє РѕР·Р°Р±РѕС‡РµРЅ РїРµСЂРµРґР°С‡РµР№ РґР°РЅРЅС‹С…
    delay_25ms();           //wait 25ms because of pending UART packet
    reset_eeprom_params();  //no back way!
   }
  }
 
- //если есть завершенная операция EEPROM, то сохраняем ее код для отправки нотификации
+ //РµСЃР»Рё РµСЃС‚СЊ Р·Р°РІРµСЂС€РµРЅРЅР°СЏ РѕРїРµСЂР°С†РёСЏ EEPROM, С‚Рѕ СЃРѕС…СЂР°РЅСЏРµРј РµРµ РєРѕРґ РґР»СЏ РѕС‚РїСЂР°РІРєРё РЅРѕС‚РёС„РёРєР°С†РёРё
  switch(eeprom_take_completed_opcode()) //TODO: review assembler code -take!
  {
   case OPCODE_EEPROM_PARAM_SAVE:

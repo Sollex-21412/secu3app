@@ -53,7 +53,7 @@
 #endif
 #define SOP_SEND_NC_RESET_EEPROM    16    //!< notify that device has entered into the EEPROM resetting mode
 
-//Эти константы не должны быть равны 0
+//Р­С‚Рё РєРѕРЅСЃС‚Р°РЅС‚С‹ РЅРµ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ СЂР°РІРЅС‹ 0
 #define OPCODE_EEPROM_PARAM_SAVE     1    //!< save EEPROM parameters
 #define OPCODE_CE_SAVE_ERRORS        2    //!< save CE errors
 #define OPCODE_READ_FW_SIG_INFO      3    //!< read signature information about firmware

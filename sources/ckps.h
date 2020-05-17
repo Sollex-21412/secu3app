@@ -112,7 +112,7 @@ void ckps_init_state_variables(void);
 uint8_t ckps_is_cog_changed(void);
 
 /** Set number of engine's cylinders
- * \param i_cyl_number allowed values(допустимые значения): *1,2,*3,4,*5,6,8
+ * \param i_cyl_number allowed values(РґРѕРїСѓСЃС‚РёРјС‹Рµ Р·РЅР°С‡РµРЅРёСЏ): *1,2,*3,4,*5,6,8
  * * these values are allowed only if firmware compliled with PHASED_IGNITION option
  */
 void ckps_set_cyl_number(uint8_t i_cyl_number);

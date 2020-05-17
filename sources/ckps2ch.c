@@ -143,19 +143,19 @@ typedef struct
  volatile uint8_t wheel_cogs_num;     //!< Number of teeth, including absent
  volatile uint8_t wheel_cogs_nump1;   //!< wheel_cogs_num + 1
  volatile uint8_t wheel_cogs_numm1;   //!< wheel_cogs_num - 1
- volatile uint16_t wheel_cogs_num2;   //!< Number of teeth which corresponds to 720° (2 revolutions)
+ volatile uint16_t wheel_cogs_num2;   //!< Number of teeth which corresponds to 720Â° (2 revolutions)
  volatile uint16_t wheel_cogs_num2p1; //!< wheel_cogs_num2 + 1
  volatile uint8_t miss_cogs_num;      //!< Count of crank wheel's missing teeth
  volatile uint8_t wheel_last_cog;     //!< Number of last(present) tooth, numeration begins from 1!
  /**Number of teeth before TDC which determines moment of advance angle latching, start of measurements from sensors,
   * latching of settings into HIP9011.
-  * çàãðóçêó íàñòðîåê â HIP)
+  * Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÑƒ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº Ð² HIP)
   */
  volatile uint8_t  wheel_latch_btdc;
  volatile uint16_t degrees_per_cog;   //!< Number of degrees which corresponds to the 1 tooth
  volatile uint16_t degrees_per_cog_r; //!< Reciprocal of the degrees_per_cog, value * 65536
  volatile uint16_t cogs_per_chan;     //!< Number of teeth per 1 ignition channel (it is fractional number * 256)
- volatile int16_t start_angle;        //!< Precalculated value of the advance angle at 66° (at least) BTDC
+ volatile int16_t start_angle;        //!< Precalculated value of the advance angle at 66Â° (at least) BTDC
 #ifdef STROBOSCOPE
  uint8_t strobe;                      //!< Flag indicates that strobe pulse must be output on pending ignition stroke
 #endif
@@ -324,7 +324,7 @@ void ckps_init_ports(void)
 }
 
 //Instantaneous frequency calculation of crankshaft rotation from the measured period between the engine strokes
-//(for example for 4-cylinder, 4-stroke it is 180°)
+//(for example for 4-cylinder, 4-stroke it is 180Â°)
 //Period measured in the discretes of timer (one discrete = 4us), one minute = 60 seconds, one second has 1,000,000 us.
 uint16_t ckps_calculate_instant_freq(void)
 {
@@ -614,7 +614,7 @@ void ckps_set_cogs_num(uint8_t norm_num, uint8_t miss_num)
  degrees_per_cog_r = (1*65535) / degrees_per_cog;
 
  //precalculate value and round it always to the upper bound,
- //e.g. for 60-2 crank wheel result = 11 (66°), for 36-1 crank wheel result = 7 (70°)
+ //e.g. for 60-2 crank wheel result = 11 (66Â°), for 36-1 crank wheel result = 7 (70Â°)
  dr = div(ANGLE_MAGNITUDE(66), degrees_per_cog);
 
  _t=_SAVE_INTERRUPT();
@@ -792,7 +792,7 @@ static uint8_t sync_at_startup(void)
    {
     SETBIT(flags, F_ISSYNC);
     ckps.period_curr = ckps.period_prev;  //exclude value of missing teeth's period
-    ckps.cog = ckps.cog360 = 1; //first tooth (1-é çóá)
+    ckps.cog = ckps.cog360 = 1; //first tooth (1-Ð¹ Ð·ÑƒÐ±)
     return 1; //finish process of synchronization
    }
    break;
@@ -831,15 +831,15 @@ static void process_ckps_cogs(void)
    }
   }
 
-  //for 66° before TDC (before working stroke) establish new advance angle to be actuated,
+  //for 66Â° before TDC (before working stroke) establish new advance angle to be actuated,
   //before this moment value was stored in a temporary buffer.
   if (ckps.cog == chanstate[i].cogs_latch)
   {
    ckps.channel_mode = i;                    //remember number of channel
    SETBIT(flags, F_NTSCHA);                  //establish an indication that it is need to count advance angle
    //start counting of advance angle
-   ckps.current_angle = ckps.start_angle; // those same 66°
-   ckps.advance_angle = ckps.advance_angle_buffered; //advance angle with all the adjustments (say, 15°)
+   ckps.current_angle = ckps.start_angle; // those same 66Â°
+   ckps.advance_angle = ckps.advance_angle_buffered; //advance angle with all the adjustments (say, 15Â°)
    adc_begin_measure(_AB(ckps.stroke_period, 1) < 4);//start the process of measuring analog input values
 #ifdef STROBOSCOPE
    if (0==i)
@@ -908,7 +908,7 @@ static void process_ckps_cogs(void)
   }
  }
 
- //tooth passed - angle before TDC decriased (e.g 6° per tooth for 60-2).
+ //tooth passed - angle before TDC decriased (e.g 6Â° per tooth for 60-2).
  ckps.current_angle-= ckps.degrees_per_cog;
  ++ckps.cog;
 
@@ -978,7 +978,7 @@ ISR(TIMER1_CAPT_vect)
   {
    if (ckps.cog != ckps.wheel_cogs_num2p1) //check if sync is correct
     SETBIT(flags, F_ERROR); //ERROR
-   ckps.cog = 1; //each 720°
+   ckps.cog = 1; //each 720Â°
   }
  }
  else
@@ -996,9 +996,9 @@ ISR(TIMER1_CAPT_vect)
     ckps.cog = 1;
     //TODO: maybe we need to turn off full sequential mode
    }
-   //Reset 360° tooth counter to the first tooth (1-é çóá)
+   //Reset 360Â° tooth counter to the first tooth (1-Ð¹ Ð·ÑƒÐ±)
    ckps.cog360 = 1;
-   //Also reset 720° tooth counter
+   //Also reset 720Â° tooth counter
    if (ckps.cog == ckps.wheel_cogs_num2p1)
     ckps.cog = 1;
    ckps.period_curr = ckps.period_prev;  //exclude value of missing teeth's period (for missing teeth only)
